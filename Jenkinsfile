@@ -4,13 +4,13 @@ pipeline {
     stages {
         stage('Build docker image') {
             steps {
-                sh 'docker build -t nunidoron/ng-web .'
+                sh 'docker build -t nunidoron/ng-web:2.0 .'
             }
         }
         stage('Testing') {
             steps {
                 sh '''
-                docker run -d --name ng-web-test -p 5002:5000 nunidoron/ng-web
+                docker run -d --name ng-web-test -p 5002:5000 nunidoron/ng-web:2.0
                 sleep 5
                 curl localhost:5002
                 docker kill ng-web-test
@@ -20,7 +20,7 @@ pipeline {
         stage('Push image') {
             steps {
                 sh '''
-                docker push nunidoron/ng-web
+                docker push nunidoron/ng-web:2.0
                 '''
             }
         }
